@@ -6,17 +6,6 @@
 
 Instead of repeatedly recruiting real users for early-stage research, SynTwin AI allows researchers to generate domain-specific synthetic personas and simulate their behavior through **Survey Mode** and **Interview Mode**.
 
----
-
-## 🚀 Live Demo
-
-🌐 **Deployed Application:**
-**[ADD YOUR DEPLOY LINK HERE]**
-
-> Replace the above with your actual Vercel/Render/Netlify deployment URL.
-
----
-
 ## 🎯 What Problem Does SynTwin AI Solve?
 
 Traditional user research can require significant time, cost, and effort to recruit participants and collect responses.
@@ -221,6 +210,7 @@ synthetic-user-generation-platform/
 ├── .env.example
 │
 ├── data/
+    |__personas.csv
 │   └── persona_memory.json
 │
 ├── reports/
