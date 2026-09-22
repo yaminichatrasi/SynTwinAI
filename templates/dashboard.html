@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SynTwin AI - Dashboard</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(0, 229, 255, 0.08), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(123, 97, 255, 0.08), transparent 30%),
+                #050816;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .dashboard-container {
+            width: 92%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 0 60px;
+        }
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 24px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(15px);
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00e5ff;
+            letter-spacing: 0.5px;
+        }
+
+        .new-experiment-btn {
+            padding: 11px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 229, 255, 0.35);
+            color: #00e5ff;
+            background: rgba(0, 229, 255, 0.06);
+            transition: 0.25s ease;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .new-experiment-btn:hover {
+            background: rgba(0, 229, 255, 0.14);
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           TITLE
+        ========================== */
+
+        .page-title {
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            margin: 0 0 8px;
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .page-title p {
+            margin: 0;
+            color: #9ba5bd;
+            font-size: 14px;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================== */
+
+        .section-title {
+            margin: 30px 0 15px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .summary-card {
+            padding: 20px;
+            min-height: 125px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(14px);
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #7f8aa3;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
+        }
+
+        .summary-value {
+            font-size: 17px;
+            font-weight: 600;
+            color: #ffffff;
+            word-break: break-word;
+        }
+
+        /* =========================
+           PERSONAS
+        ========================== */
+
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .persona-card {
+            padding: 22px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(14px);
+            transition: 0.25s ease;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 229, 255, 0.22);
+        }
+
+        .persona-name {
+            font-size: 19px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #00e5ff;
+        }
+
+        .persona-meta {
+            color: #a9b2c7;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .persona-info {
+            display: grid;
+            gap: 9px;
+        }
+
+        .persona-info-row {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #d7dbea;
+        }
+
+        .persona-info-row strong {
+            color: #ffffff;
+        }
+
+        .confidence {
+            margin-top: 15px;
+            padding-top: 13px;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            color: #00e5ff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* =========================
+           RESEARCH ACTIONS
+        ========================== */
+
+        .research-heading {
+            margin-top: 42px;
+        }
+
+        .research-mode-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 18px;
+        }
+
+        .mode-card {
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.035);
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 229, 255, 0.28);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .mode-card h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .mode-card p {
+            margin: 0;
+            color: #9ba5bd;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .mode-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        /* =========================
+           AI INSIGHTS + PDF
+        ========================== */
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .insights-btn,
+        .pdf-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 20px;
+            border-radius: 11px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .insights-btn {
+            color: #ffffff;
+            border: 1px solid rgba(123, 97, 255, 0.45);
+            background: linear-gradient(
+                135deg,
+                rgba(123, 97, 255, 0.25),
+                rgba(0, 229, 255, 0.12)
+            );
+        }
+
+        .insights-btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(123, 97, 255, 0.8);
+        }
+
+        .pdf-btn {
+            color: #00e5ff;
+            border: 1px solid rgba(0, 229, 255, 0.45);
+            background: rgba(0, 229, 255, 0.07);
+        }
+
+        .pdf-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(0, 229, 255, 0.14);
+            border-color: rgba(0, 229, 255, 0.8);
+        }
+
+        /* =========================
+           SURVEY SECTION
+        ========================== */
+
+        .research-section {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(14px);
+        }
+
+        .research-section h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 21px;
+        }
+
+        .research-section > p {
+            color: #9ba5bd;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            margin-top: 15px;
+            padding: 16px;
+            resize: vertical;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            outline: none;
+            background: rgba(0, 0, 0, 0.22);
+            color: #ffffff;
+            font-family: "Poppins", Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        textarea:focus {
+            border-color: rgba(0, 229, 255, 0.45);
+        }
+
+        .primary-btn {
+            margin-top: 15px;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00e5ff, #6d5dfc);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           INTERVIEW
+        ========================== */
+
+        .interview-controls {
+            margin-bottom: 20px;
+        }
+
+        .interview-controls label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cdd3e2;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        select {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            outline: none;
+            background: #0c1020;
+            color: #ffffff;
+            font-family: "Poppins", Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        select:focus {
+            border-color: rgba(0, 229, 255, 0.45);
+        }
+
+        .selected-persona {
+            display: none;
+            margin-bottom: 20px;
+            padding: 18px;
+            border-radius: 14px;
+            background: rgba(0, 229, 255, 0.04);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+        }
+
+        .selected-persona h3 {
+            margin: 0 0 7px;
+            color: #00e5ff;
+        }
+
+        .selected-persona p {
+            margin: 4px 0;
+            color: #aeb7ca;
+            font-size: 13px;
+        }
+
+        .chat-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .chat-box {
+            height: 400px;
+            overflow-y: auto;
+            padding: 18px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.18);
+        }
+
+        .chat-message {
+            max-width: 80%;
+            margin-bottom: 14px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .chat-message.user {
+            margin-left: auto;
+            background: rgba(0, 229, 255, 0.12);
+            border: 1px solid rgba(0, 229, 255, 0.15);
+        }
+
+        .chat-message.persona {
+            margin-right: auto;
+            background: rgba(123, 97, 255, 0.12);
+            border: 1px solid rgba(123, 97, 255, 0.15);
+        }
+
+        .chat-message.system {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 90%;
+            text-align: center;
+            color: #8f99b0;
+            background: rgba(255, 255, 255, 0.035);
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 13px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            outline: none;
+            background: rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+            font-family: "Poppins", Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .chat-input:focus {
+            border-color: rgba(0, 229, 255, 0.45);
+        }
+
+        .send-btn {
+            padding: 0 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00e5ff, #6d5dfc);
+            color: #ffffff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .clear-chat-btn {
+            margin-top: 10px;
+            padding: 9px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.035);
+            color: #aeb7ca;
+            cursor: pointer;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1100px) {
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .persona-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 750px) {
+            .dashboard-container {
+                width: 94%;
+                padding-top: 18px;
+            }
+
+            .top-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .summary-grid,
+            .persona-grid,
+            .research-mode-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .insights-btn,
+            .pdf-btn {
+                width: 100%;
+            }
+
+            .chat-input-area {
+                flex-direction: column;
+            }
+
+            .send-btn {
+                min-height: 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="top-header">
+        <div class="brand">SynTwin AI</div>
+
+        <a href="/experiment" class="new-experiment-btn">
+            ← New Experiment
+        </a>
+    </header>
+
+
+    <!-- =========================
+         PAGE TITLE
+    ========================== -->
+
+    <section class="page-title">
+        <h1>Experiment Dashboard</h1>
+        <p>
+            Explore your AI-generated digital twins and conduct synthetic user research.
+        </p>
+    </section>
+
+
+    <!-- =========================
+         EXPERIMENT SUMMARY
+    ========================== -->
+
+    <h2 class="section-title">Experiment Summary</h2>
+
+    <section class="summary-grid">
+
+        <div class="summary-card">
+            <div class="summary-label">Experiment</div>
+            <div class="summary-value">
+                {{ experiment }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Product / Service</div>
+            <div class="summary-value">
+                {{ product }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Research Domain</div>
+            <div class="summary-value">
+                {{ simulation }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">Target Audience</div>
+            <div class="summary-value">
+                {{ audience }}
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-label">AI Digital Twins</div>
+            <div class="summary-value">
+                {{ personas|length }}
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PERSONAS
+    ========================== -->
+
+    <h2 class="section-title">
+        AI Digital Twins
+    </h2>
+
+    <section class="persona-grid">
+
+        {% for persona in personas %}
+
+        <div class="persona-card">
+
+            <div class="persona-name">
+                {{ persona.name }}
+            </div>
+
+            <div class="persona-meta">
+                {{ persona.age }} years old • {{ persona.gender }}
+            </div>
+
+            <div class="persona-info">
+
+                {% if persona.background %}
+                <div class="persona-info-row">
+                    <strong>Background:</strong>
+                    {{ persona.background }}
+                </div>
+                {% endif %}
+
+                {% if persona.goals %}
+                <div class="persona-info-row">
+                    <strong>Goals:</strong>
+                    {{ persona.goals }}
+                </div>
+                {% endif %}
+
+                {% if persona.behaviors %}
+                <div class="persona-info-row">
+                    <strong>Behavior:</strong>
+                    {{ persona.behaviors }}
+                </div>
+                {% endif %}
+
+                {% if persona.preferences %}
+                <div class="persona-info-row">
+                    <strong>Preferences:</strong>
+                    {{ persona.preferences }}
+                </div>
+                {% endif %}
+
+                {% if persona.pain_points %}
+                <div class="persona-info-row">
+                    <strong>Pain Points:</strong>
+                    {{ persona.pain_points }}
+                </div>
+                {% endif %}
+
+            </div>
+
+            {% if persona.confidence %}
+            <div class="confidence">
+                AI Confidence: {{ persona.confidence }}%
+            </div>
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+
+    <!-- =========================
+         RESEARCH MODES
+    ========================== -->
+
+    <h2 class="section-title research-heading">
+        Choose Research Mode
+    </h2>
+
+    <section class="research-mode-grid">
+
+        <div class="mode-card" onclick="showSurvey()">
+
+            <div class="mode-icon">📋</div>
+
+            <h3>Survey Mode</h3>
+
+            <p>
+                Ask survey questions and collect responses from all generated
+                AI digital twins.
+            </p>
+
+        </div>
+
+
+        <div class="mode-card" onclick="showInterview()">
+
+            <div class="mode-icon">💬</div>
+
+            <h3>Interview Mode</h3>
+
+            <p>
+                Conduct an interactive conversation with a selected AI
+                digital twin using its stored persona memory.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         INSIGHTS + PDF BUTTONS
+    ========================== -->
+
+    <div class="action-buttons">
+
+        <a
+            href="/insights?experiment_name={{ experiment }}"
+            class="insights-btn"
+        >
+            🧠 View AI Research Insights
+        </a>
+
+
+        <button
+            type="button"
+            class="pdf-btn"
+            onclick="downloadResearchReport()"
+        >
+            📄 Download PDF Research Report
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         SURVEY SECTION
+    ========================== -->
+
+    <section
+        id="survey-section"
+        class="research-section"
+    >
+
+        <h2>Survey Mode</h2>
+
+        <p>
+            Enter your survey questions below. The generated AI digital
+            twins will answer the questions based on their individual
+            persona memory.
+        </p>
+
+        <form
+            method="post"
+            action="/survey"
+        >
+
+            <input
+                type="hidden"
+                name="experiment_name"
+                value="{{ experiment }}"
+            >
+
+            <textarea
+                name="survey_questions"
+                placeholder="Enter your survey questions here...
+
+Example:
+1. Would you use this product?
+2. What feature would be most useful to you?
+3. What problems might stop you from using it?"
+                required
+            ></textarea>
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                Generate Survey Responses
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================
+         INTERVIEW SECTION
+    ========================== -->
+
+    <section
+        id="interview-section"
+        class="research-section"
+    >
+
+        <h2>Interview Mode</h2>
+
+        <p>
+            Select a digital twin and interact with it through a
+            persona-aware AI interview.
+        </p>
+
+
+        <!-- PERSONA SELECT -->
+
+        <div class="interview-controls">
+
+            <label for="personaSelect">
+                Select AI Digital Twin
+            </label>
+
+            <select
+                id="personaSelect"
+                onchange="updatePersonaInfo()"
+            >
+
+                <option value="">
+                    -- Select a Persona --
+                </option>
+
+                {% for persona in personas %}
+
+                <option
+                    value="{{ loop.index0 }}"
+                    data-name="{{ persona.name }}"
+                    data-age="{{ persona.age }}"
+                    data-gender="{{ persona.gender }}"
+                    data-background="{{ persona.background | default('') }}"
+                    data-goals="{{ persona.goals | default('') }}"
+                    data-behaviors="{{ persona.behaviors | default('') }}"
+                >
+                    {{ persona.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <!-- SELECTED PERSONA -->
+
+        <div
+            id="selectedPersona"
+            class="selected-persona"
+        >
+
+            <h3 id="selectedPersonaName"></h3>
+
+            <p id="selectedPersonaMeta"></p>
+
+            <p id="selectedPersonaBackground"></p>
+
+            <p id="selectedPersonaGoals"></p>
+
+            <p id="selectedPersonaBehaviors"></p>
+
+        </div>
+
+
+        <!-- CHAT -->
+
+        <div
+            id="chatContainer"
+            class="chat-container"
+        >
+
+            <div
+                id="chatBox"
+                class="chat-box"
+            ></div>
+
+
+            <div class="chat-input-area">
+
+                <input
+                    type="text"
+                    id="interviewInput"
+                    class="chat-input"
+                    placeholder="Ask the persona a question..."
+                    onkeydown="handleInterviewKey(event)"
+                >
+
+                <button
+                    type="button"
+                    class="send-btn"
+                    onclick="sendInterviewMessage()"
+                >
+                    Send
+                </button>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="clear-chat-btn"
+                onclick="clearInterviewChat()"
+            >
+                Clear Conversation
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         HIDDEN DATA
+    ========================== -->
+
+    <input
+        type="hidden"
+        id="experimentNameData"
+        value="{{ experiment }}"
+    >
+
+</div>
+
+
+<script>
+    /* =========================
+       SHOW SURVEY
+    ========================== */
+
+    function showSurvey() {
+
+        const surveySection =
+            document.getElementById("survey-section");
+
+        const interviewSection =
+            document.getElementById("interview-section");
+
+        surveySection.style.display = "block";
+        interviewSection.style.display = "none";
+
+        surveySection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+
+    /* =========================
+       SHOW INTERVIEW
+    ========================== */
+
+    function showInterview() {
+
+        const surveySection =
+            document.getElementById("survey-section");
+
+        const interviewSection =
+            document.getElementById("interview-section");
+
+        surveySection.style.display = "none";
+        interviewSection.style.display = "block";
+
+        interviewSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+
+    /* =========================
+       PDF DOWNLOAD
+    ========================== */
+
+    function downloadResearchReport() {
+
+        const experimentInput =
+            document.getElementById("experimentNameData");
+
+        if (!experimentInput) {
+            alert("Experiment information not found.");
+            return;
+        }
+
+        const experimentName =
+            experimentInput.value;
+
+        if (!experimentName) {
+            alert("Experiment name is missing.");
+            return;
+        }
+
+        const encodedExperiment =
+            encodeURIComponent(experimentName);
+
+        window.location.href =
+            "/download-report/" + encodedExperiment;
+    }
+
+
+    /* =========================
+       UPDATE PERSONA INFO
+    ========================== */
+
+    function updatePersonaInfo() {
+
+        const select =
+            document.getElementById("personaSelect");
+
+        const selectedOption =
+            select.options[select.selectedIndex];
+
+        const selectedPersona =
+            document.getElementById("selectedPersona");
+
+        const chatContainer =
+            document.getElementById("chatContainer");
+
+        if (!select.value) {
+
+            selectedPersona.style.display = "none";
+            chatContainer.style.display = "none";
+
+            return;
+        }
+
+
+        const name =
+            selectedOption.dataset.name || "";
+
+        const age =
+            selectedOption.dataset.age || "";
+
+        const gender =
+            selectedOption.dataset.gender || "";
+
+        const background =
+            selectedOption.dataset.background || "";
+
+        const goals =
+            selectedOption.dataset.goals || "";
+
+        const behaviors =
+            selectedOption.dataset.behaviors || "";
+
+
+        document.getElementById(
+            "selectedPersonaName"
+        ).textContent = name;
+
+
+        document.getElementById(
+            "selectedPersonaMeta"
+        ).textContent =
+            age + " years old • " + gender;
+
+
+        document.getElementById(
+            "selectedPersonaBackground"
+        ).textContent =
+            background
+                ? "Background: " + background
+                : "";
+
+
+        document.getElementById(
+            "selectedPersonaGoals"
+        ).textContent =
+            goals
+                ? "Goals: " + goals
+                : "";
+
+
+        document.getElementById(
+            "selectedPersonaBehaviors"
+        ).textContent =
+            behaviors
+                ? "Behavior: " + behaviors
+                : "";
+
+
+        selectedPersona.style.display = "block";
+        chatContainer.style.display = "block";
+
+
+        loadInterviewHistory();
+    }
+
+
+    /* =========================
+       LOAD INTERVIEW HISTORY
+    ========================== */
+
+    async function loadInterviewHistory() {
+
+        const experimentName =
+            document.getElementById(
+                "experimentNameData"
+            ).value;
+
+        const personaIndex =
+            document.getElementById(
+                "personaSelect"
+            ).value;
+
+        if (!experimentName || personaIndex === "") {
+            return;
+        }
+
+
+        const chatBox =
+            document.getElementById("chatBox");
+
+        chatBox.innerHTML = "";
+
+        try {
+
+            const response = await fetch(
+                "/interview/history?experiment_name="
+                + encodeURIComponent(experimentName)
+                + "&persona_index="
+                + encodeURIComponent(personaIndex)
+            );
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to load interview history."
+                );
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                data &&
+                Array.isArray(data.history) &&
+                data.history.length > 0
+            ) {
+
+                renderInterviewHistory(
+                    data.history
+                );
+
+            } else {
+
+                showInterviewSystemMessage(
+                    "Start the interview by asking a question."
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Interview history error:",
+                error
+            );
+
+            showInterviewSystemMessage(
+                "Start the interview by asking a question."
+            );
+        }
+    }
+
+
+    /* =========================
+       SEND INTERVIEW MESSAGE
+    ========================== */
+
+    async function sendInterviewMessage() {
+
+        const input =
+            document.getElementById(
+                "interviewInput"
+            );
+
+        const message =
+            input.value.trim();
+
+        const experimentName =
+            document.getElementById(
+                "experimentNameData"
+            ).value;
+
+        const personaIndex =
+            document.getElementById(
+                "personaSelect"
+            ).value;
+
+
+        if (!message) {
+            return;
+        }
+
+
+        if (!experimentName || personaIndex === "") {
+
+            alert(
+                "Please select a persona first."
+            );
+
+            return;
+        }
+
+
+        addInterviewMessage(
+            "user",
+            message
+        );
+
+        input.value = "";
+
+
+        const loadingId =
+            "loading-" + Date.now();
+
+
+        addInterviewMessage(
+            "persona",
+            "Thinking...",
+            loadingId
+        );
+
+
+        try {
+
+            const response = await fetch(
+                "/interview",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        experiment_name:
+                            experimentName,
+
+                        persona_index:
+                            parseInt(
+                                personaIndex
+                            ),
+
+                        message:
+                            message
+                    })
+                }
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Interview request failed."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const loadingMessage =
+                document.getElementById(
+                    loadingId
+                );
+
+
+            if (loadingMessage) {
+
+                loadingMessage.remove();
+
+            }
+
+
+            if (data.response) {
+
+                addInterviewMessage(
+                    "persona",
+                    data.response
+                );
+
+            } else {
+
+                addInterviewMessage(
+                    "system",
+                    "No response was generated."
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Interview error:",
+                error
+            );
+
+
+            const loadingMessage =
+                document.getElementById(
+                    loadingId
+                );
+
+
+            if (loadingMessage) {
+                loadingMessage.remove();
+            }
+
+
+            addInterviewMessage(
+                "system",
+                "Unable to get a response. Please try again."
+            );
+        }
+    }
+
+
+    /* =========================
+       ADD INTERVIEW MESSAGE
+    ========================== */
+
+    function addInterviewMessage(
+        sender,
+        message,
+        customId = ""
+    ) {
+
+        const chatBox =
+            document.getElementById("chatBox");
+
+
+        const messageDiv =
+            document.createElement("div");
+
+
+        messageDiv.className =
+            "chat-message " + sender;
+
+
+        if (customId) {
+            messageDiv.id = customId;
+        }
+
+
+        messageDiv.textContent =
+            message;
+
+
+        chatBox.appendChild(
+            messageDiv
+        );
+
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+    }
+
+
+    /* =========================
+       RENDER INTERVIEW HISTORY
+    ========================== */
+
+    function renderInterviewHistory(history) {
+
+        const chatBox =
+            document.getElementById("chatBox");
+
+
+        chatBox.innerHTML = "";
+
+
+        history.forEach(function(item) {
+
+            let sender =
+                item.role || item.sender;
+
+
+            let message =
+                item.content || item.message;
+
+
+            if (
+                sender === "assistant" ||
+                sender === "persona"
+            ) {
+
+                sender = "persona";
+
+            } else if (sender === "user") {
+
+                sender = "user";
+
+            } else {
+
+                sender = "system";
+
+            }
+
+
+            addInterviewMessage(
+                sender,
+                message
+            );
+
+        });
+    }
+
+
+    /* =========================
+       CLEAR CHAT
+    ========================== */
+
+    async function clearInterviewChat() {
+
+        const experimentName =
+            document.getElementById(
+                "experimentNameData"
+            ).value;
+
+        const personaIndex =
+            document.getElementById(
+                "personaSelect"
+            ).value;
+
+
+        if (!experimentName || personaIndex === "") {
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch(
+                "/interview/clear",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        experiment_name:
+                            experimentName,
+
+                        persona_index:
+                            parseInt(
+                                personaIndex
+                            )
+                    })
+                }
+            );
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to clear conversation."
+                );
+            }
+
+
+            document.getElementById(
+                "chatBox"
+            ).innerHTML = "";
+
+
+            showInterviewSystemMessage(
+                "Conversation cleared. Start a new interview."
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Clear interview error:",
+                error
+            );
+
+            alert(
+                "Unable to clear the conversation."
+            );
+        }
+    }
+
+
+    /* =========================
+       SYSTEM MESSAGE
+    ========================== */
+
+    function showInterviewSystemMessage(message) {
+
+        addInterviewMessage(
+            "system",
+            message
+        );
+    }
+
+
+    /* =========================
+       ENTER KEY
+    ========================== */
+
+    function handleInterviewKey(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            sendInterviewMessage();
+        }
+    }
+
+
+    /* =========================
+       INITIAL STATE
+    ========================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            document.getElementById(
+                "survey-section"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "interview-section"
+            ).style.display = "none";
+
+        }
+    );
+</script>
+
+</body>
+</html>

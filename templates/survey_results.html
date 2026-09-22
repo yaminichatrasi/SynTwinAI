@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Survey Results | SynTwin AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(0, 229, 255, 0.08), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.08), transparent 35%),
+                #050816;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: min(1200px, 92%);
+            margin: auto;
+            padding: 40px 0 70px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00e5ff;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.04);
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0,229,255,0.10);
+            border-color: rgba(0,229,255,0.35);
+        }
+
+        .hero {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 22px;
+            padding: 28px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(16px);
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .hero p {
+            margin: 0;
+            color: #94a3b8;
+        }
+
+        .question-box {
+            margin-top: 22px;
+            background: rgba(0,0,0,0.18);
+            border-radius: 14px;
+            padding: 18px;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .question-box h3 {
+            margin-top: 0;
+            color: #00e5ff;
+        }
+
+        .questions {
+            white-space: pre-line;
+            color: #dbe4ee;
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin: 35px 0 18px;
+        }
+
+        .responses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .persona-card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 23px;
+            backdrop-filter: blur(14px);
+        }
+
+        .persona-name {
+            color: #00e5ff;
+            font-size: 19px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .response {
+            color: #dbe4ee;
+            line-height: 1.8;
+            white-space: pre-line;
+            font-size: 14px;
+        }
+
+        .empty {
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.04);
+            color: #94a3b8;
+        }
+
+        @media (max-width: 700px) {
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topbar">
+        <div>
+            <div class="brand">SynTwin AI</div>
+            <div class="subtitle">AI Digital Twin Research Platform</div>
+        </div>
+
+        <a href="/" class="back-btn">
+            ← New Experiment
+        </a>
+    </div>
+
+
+    <div class="hero">
+
+        <h1>Survey Results</h1>
+
+        <p>
+            Experiment:
+            <strong>{{ experiment }}</strong>
+        </p>
+
+        <div class="question-box">
+
+            <h3>Survey Questions</h3>
+
+            <div class="questions">
+                {{ survey_questions }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+        AI Digital Twin Responses
+    </h2>
+
+
+    {% if responses %}
+
+    <div class="responses">
+
+        {% for item in responses %}
+
+        <div class="persona-card">
+
+            <div class="persona-name">
+                {{ item.persona_name }}
+            </div>
+
+            <div class="response">
+                {{ item.response }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+        No survey responses were generated.
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Survey Results | SynTwin AI</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+.survey-page{
+    width:90%;
+    max-width:1200px;
+    margin:45px auto;
+}
+
+.back{
+    color:#00e5ff;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.header{
+    text-align:center;
+    margin:35px 0;
+}
+
+.header h1{
+    color:#00e5ff;
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.header p{
+    color:#aebdce;
+}
+
+.question{
+    background:rgba(255,255,255,.07);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.08);
+    padding:25px;
+    border-radius:20px;
+    margin-bottom:35px;
+}
+
+.question h3{
+    color:#00e5ff;
+    margin-bottom:10px;
+}
+
+.question p{
+    color:white;
+    line-height:1.7;
+}
+
+.responses{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+}
+
+.response-card{
+    background:rgba(255,255,255,.07);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:25px;
+    transition:.3s;
+}
+
+.response-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 12px 30px rgba(0,229,255,.2);
+}
+
+.user{
+    margin-bottom:18px;
+}
+
+.user h3{
+    color:#00e5ff;
+    margin-bottom:4px;
+}
+
+.label{
+    font-size:12px;
+    color:#8998aa;
+}
+
+.answer{
+    background:#101b32;
+    padding:18px;
+    border-radius:14px;
+    color:#e4ebf4;
+    line-height:1.7;
+}
+
+.new-survey{
+    display:block;
+    width:100%;
+    margin-top:35px;
+    padding:15px;
+    border-radius:30px;
+    background:linear-gradient(90deg,#00d9ff,#6c63ff);
+    color:white;
+    text-align:center;
+    text-decoration:none;
+    font-weight:600;
+}
+
+@media(max-width:700px){
+
+    .survey-page{
+        width:94%;
+    }
+
+    .header h1{
+        font-size:29px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="survey-page">
+
+<a href="/experiment" class="back">
+← Create New Experiment
+</a>
+
+<div class="header">
+
+<h1>🧪 Survey Results</h1>
+
+<p>
+{{ experiment.experiment_name }}
+</p>
+
+</div>
+
+
+<!-- QUESTION -->
+
+<div class="question">
+
+<h3>Research Question</h3>
+
+<p>
+{{ question }}
+</p>
+
+</div>
+
+
+<!-- RESPONSES -->
+
+<h2 style="color:#00e5ff;margin-bottom:20px;">
+Synthetic User Responses
+</h2>
+
+<div class="responses">
+
+{% for response in responses %}
+
+<div class="response-card">
+
+<div class="user">
+
+<h3>{{ response.name }}</h3>
+
+<span class="label">
+Synthetic Respondent {{ loop.index }}
+</span>
+
+</div>
+
+<div class="answer">
+
+{{ response.response }}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<a
+href="/experiment"
+class="new-survey">
+
+Create Another Experiment
+
+</a>
+
+</div>
+
+</body>
+
+</html>
