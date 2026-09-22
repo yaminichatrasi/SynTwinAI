@@ -1,7 +1,8 @@
 fastapi
 uvicorn
 jinja2
-python-dotenv
 python-multipart
+python-dotenv
 openai
 httpx
+reportlab
